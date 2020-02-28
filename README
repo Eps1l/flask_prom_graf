@@ -1,4 +1,4 @@
-git clone 
+git clone https://github.com/Eps1l/flask_prom_graf.git
 
 # Flask web app. Hello world + prometheus endpoint
 http://192.168.1.247:56733/

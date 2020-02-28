@@ -1,0 +1,48 @@
+version: "3"
+services:
+
+### NGINX ##################################################
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - /var/www/html/:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+
+### Prometheus #############################################
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/sd:/etc/prometheus/sd
+
+### Grafana ################################################
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+#    volumes:
+#      - /var/www/html/:/usr/share/nginx/html
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+
+### NGINX Exporter #########################################
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx-exporter
+    restart: unless-stopped
+    environment:
+      - SCRAPE_URI=http://nginx/nginx_status
+      - TELEMETRY_PATH=/metrics
+      - NGINX_RETRIES=10
+    ports:
+      - 9113:9113
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"

@@ -1,0 +1,21 @@
+git clone 
+
+# Flask web app. Hello world + prometheus endpoint
+http://192.168.1.247:56733/
+http://192.168.1.247:56733/metrics
+
+# Prometheus web
+http://192.168.1.247:9090/targets
+
+# Grafana qwerty dashboard with prometheus datasourses
+http://192.168.1.247:3000/d/HbxjzM_Wz/qwerty?orgId=1&refresh=5s
+
+# Health_check
+./flask/app/logs/healthcheck.log
+./flask/app/logs/healthcheck_error.log
+
+Приложение рестартуется при изменении healthcheck_error.log. Туда попадает сообщение, если код ответа не 200(ну или всегда можно его потрогать руками или что то вписать).
+Реди чек так и не прикрутился нормально. Собственно хелф чек уже напишет об ошибке если не поднимится страничка.
+
+IP захардкожен везде. В конфигах которые по папкам лежат можно поменять + в приложухе app/views.py.
+Обычно, насколько понял, обходятся доменными именами, но не успел продумать как это лучше сделать всё.
